@@ -1,14 +1,18 @@
 use macroquad::prelude::*;
 
-#[macroquad::main("MyGame")]
+
+
+#[macroquad::main("Ball")]
 async fn main() {
+
+    let screen_center = (screen_width() / 2.0, screen_height() / 2.0);
+
     loop {
-        clear_background(RED);
-
-        draw_line(40.0, 40.0, 100.0, 200.0, 15.0, BLUE);
-        draw_rectangle(screen_width() / 2.0 - 60.0, 100.0, 120.0, 60.0, GREEN);
-
-        draw_text("Hello, Macroquad!", 20.0, 20.0, 30.0, DARKGRAY);
+        clear_background(BLACK);
+        
+        let (mouse_x, mouse_y) = (mouse_position().0, mouse_position().1);
+        println!("Mouse x-position: {}", mouse_x);
+        println!("Mouse y-position: {}", mouse_y);
 
         next_frame().await
     }
