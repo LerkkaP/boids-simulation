@@ -12,6 +12,13 @@ impl Boid {
         let y = (self.v1.y + self.v2.y + self.v3.y) / 3.0;
         (x, y)
     }
+
+    fn angle_to_mouse(&self, mouse_x: f32, mouse_y: f32) -> f32 {
+        let (x, y) = self.get_center();
+        let dx = mouse_x - x;
+        let dy = mouse_y - y;
+        dy.atan2(dx)
+    }
 }
 
 #[macroquad::main("Boid simulation")]
@@ -31,7 +38,7 @@ async fn main() {
         
         let (mouse_x, mouse_y) = mouse_position();
         draw_triangle(boid.v1, boid.v2, boid.v3, WHITE);
-        boid.v2 = Vec2{x: mouse_x, y: mouse_y};
+        println!("{}", boid.angle_to_mouse(mouse_x, mouse_y));
         
         next_frame().await
     }
