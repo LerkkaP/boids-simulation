@@ -27,14 +27,15 @@ impl Boid {
             // translate the rotation center to the origin
             let x = v.x - x_center;
             let y = v.y - y_center;
-        }
-        // calculate new coordinates
-        let x_new = x * angle.cos() - y * angle.sin();
-        let y_new = x * angle.sin() + y * angle.cos();
 
-        // translate back to original center
-        let v.x = x_new + x_center;
-        let v.y = y_new + y_center;
+            // calculate new coordinates
+            let x_new = x * angle.cos() - y * angle.sin();
+            let y_new = x * angle.sin() + y * angle.cos();
+
+            // translate back to original center
+            v.x = x_new + x_center;
+            v.y = y_new + y_center;
+        }
     }
 }
 
@@ -54,6 +55,7 @@ async fn main() {
         clear_background(BLACK);
         
         let (mouse_x, mouse_y) = mouse_position();
+        let angle = boid.angle_to_mouse(mouse_x, mouse_y);
         draw_triangle(boid.v1, boid.v2, boid.v3, WHITE);
         println!("{}", boid.angle_to_mouse(mouse_x, mouse_y));
         
