@@ -20,10 +20,21 @@ impl Boid {
         dy.atan2(dx) // in radians
     }
 
-    fn rotate(mut &self) -> () {
-        // 1. translate the rotation center to the origin
-        // 2. calculate new coordinates
-        // 3. translate back to original center
+    fn rotate(&mut self, angle: f32) -> () {
+        let (x_center, y_center) = self.get_center();
+
+        for v in [&mut self.v1, &mut self.v2, &mut self.v3] {
+            // translate the rotation center to the origin
+            let x = v.x - x_center;
+            let y = v.y - y_center;
+        }
+        // calculate new coordinates
+        let x_new = x * angle.cos() - y * angle.sin();
+        let y_new = x * angle.sin() + y * angle.cos();
+
+        // translate back to original center
+        let v.x = x_new + x_center;
+        let v.y = y_new + y_center;
     }
 }
 
