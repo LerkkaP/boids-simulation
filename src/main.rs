@@ -17,7 +17,13 @@ impl Boid {
         let (x, y) = self.get_center();
         let dx = mouse_x - x;
         let dy = mouse_y - y;
-        dy.atan2(dx)
+        dy.atan2(dx) // in radians
+    }
+
+    fn rotate(mut &self) -> () {
+        // 1. translate the rotation center to the origin
+        // 2. calculate new coordinates
+        // 3. translate back to original center
     }
 }
 
