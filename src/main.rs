@@ -50,6 +50,33 @@ impl Boid {
             v.y = y_new + y_center;
         }
     }
+
+    fn move_boid(&mut self, mouse_x: f32, mouse_y: f32) -> () {
+        let delta = get_frame_time();
+        let speed = 150.0;
+
+        let (center_x, center_y) = self.get_center();
+
+        let dx = mouse_x - center_x;
+        let dy = mouse_y - center_y;
+
+        let length = (dx*dx + dy*dy).sqrt();
+
+        let dir_x = dx / length;
+        let dir_y = dy / length;
+
+        let velocity_x = dir_x * speed * delta;
+        let velocity_y = dir_y * speed * delta;
+
+        self.v1.x += velocity_x;
+        self.v1.y += velocity_y;
+
+        self.v2.x += velocity_x;
+        self.v2.y += velocity_y;
+
+        self.v3.x += velocity_x;
+        self.v3.y += velocity_y;
+    }
 }
 
 #[macroquad::main("Boid simulation")]
@@ -73,7 +100,7 @@ async fn main() {
         let delta = boid.angle_to_mouse(mouse_x, mouse_y);
         boid.rotate(delta);
         boid.rotation += delta;
-       
+        boid.move_boid(mouse_x, mouse_y);
         draw_triangle(boid.v1, boid.v2, boid.v3, WHITE);
 
         next_frame().await
