@@ -91,18 +91,21 @@ async fn main() {
         v3: vec2(screen_center_x + size, screen_center_y + size * multiplier),
         rotation: 0.0,
     };
+    let mut trace: Vec<(f32, f32)> = Vec::new();
 
     loop {
         clear_background(BLACK);
-        
         let (mouse_x, mouse_y) = mouse_position();
-
+        let boid_center = boid.get_center();
         let delta = boid.angle_to_mouse(mouse_x, mouse_y);
         boid.rotate(delta);
         boid.rotation += delta;
         boid.move_boid(mouse_x, mouse_y);
         draw_triangle(boid.v1, boid.v2, boid.v3, WHITE);
-
+        for pos in &trace {
+            draw_circle(pos.0, pos.1, 1.0, BLUE);
+        }
+        trace.push((boid_center.0, boid.v1.y));
         next_frame().await
     }
 }
