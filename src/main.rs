@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use macroquad::rand::gen_range;
 
 struct Boid {
     v1: Vec2,
@@ -87,6 +88,15 @@ impl Collectible {
         let tip_distance_to_center = ((self.x-tip.x).powf(2.0)+(self.y-tip.y).powf(2.0)).sqrt();
         tip_distance_to_center <= self.radius
     }
+
+    fn move_to_random(&mut self) -> () {
+        //
+        let x: f32 = gen_range(0.0 + self.radius, 800.0 - self.radius);
+        let y: f32 = gen_range(0.0 + self.radius, 600.0 - self.radius);
+
+        self.x = x;
+        self.y = y;
+    }
 }
 
 #[macroquad::main("Boid simulation")]
@@ -101,7 +111,7 @@ async fn main() {
         v3: vec2(screen_center_x + size, screen_center_y + size * multiplier),
         rotation: 0.0,
     };
-    let collectible = Collectible {
+    let mut collectible = Collectible {
         x: 50.0,
         y: 50.0,
         radius: 10.0,
@@ -119,7 +129,9 @@ async fn main() {
         draw_triangle(boid.v1, boid.v2, boid.v3, WHITE);
         draw_circle(collectible.x, collectible.y, collectible.radius, WHITE);
         let collision = collectible.collides_with(boid.v2);
-        println!("{}", collision);
+        if collision {
+            collectible.move_to_random();
+        }
         for pos in &trace {
             draw_circle(pos.0, pos.1, 1.0, BLUE);
         }
